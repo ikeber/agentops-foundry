@@ -39,3 +39,25 @@ AgentOps uses ordered grounding rules so authoritative information can take prec
 ## Status
 
 AgentOps is currently in early development, focused on delivering the first complete end-to-end quality gate for Microsoft Foundry agents.
+
+## Development
+
+### Prerequisites
+
+* Python 3.12 or later and [uv](https://docs.astral.sh/uv/).
+* The [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), for signing in locally.
+* A Microsoft Foundry project that contains the agent to test. Your identity needs the **Foundry User** role on the project. This role was previously named Azure AI User.
+
+### Set up
+
+```bash
+uv sync
+```
+
+### Connect to Microsoft Foundry
+
+AgentOps authenticates to Foundry with Microsoft Entra ID, which is the only method the Foundry SDK supports. The repository never stores keys or secrets.
+
+1. Sign in with `az login`. In CI, provide a service principal or workload identity through the standard `AZURE_*` environment variables that `azure-identity` reads.
+2. Copy `.env.example` to `.env` and set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_AGENT_NAME`. The `.env` file is git-ignored.
+
