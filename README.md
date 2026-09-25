@@ -54,10 +54,22 @@ AgentOps is currently in early development, focused on delivering the first comp
 uv sync
 ```
 
+For the full Azure setup, including creating a Foundry project, assigning roles, creating a test agent and verifying the connection, see [docs/foundry-setup.md](docs/foundry-setup.md).
+
 ### Connect to Microsoft Foundry
 
 AgentOps authenticates to Foundry with Microsoft Entra ID, which is the only method the Foundry SDK supports. The repository never stores keys or secrets.
 
 1. Sign in with `az login`. In CI, provide a service principal or workload identity through the standard `AZURE_*` environment variables that `azure-identity` reads.
 2. Copy `.env.example` to `.env` and set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_AGENT_NAME`. The `.env` file is git-ignored.
+
+### Run checks
+
+```bash
+uv run pytest                                  # unit tests
+uv run --env-file .env pytest -m integration   # live checks against your Foundry project
+uv run mypy                                    # static type checks
+uv run ruff check                              # lint
+uv run ruff format --check                     # formatting
+```
 
